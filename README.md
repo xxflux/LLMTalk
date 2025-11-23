@@ -1,4 +1,5 @@
-[![Video](https://img.youtube.com/vi/7zU3zgt9wxc/hqdefault.jpg)]([https://www.youtube.com/watch?v=nNwet493M_w](https://youtu.be/7zU3zgt9wxc))
+[![https://www.youtube.com/watch?v=7zU3zgt9wxc](https://img.youtube.com/vi/7zU3zgt9wxc/0.jpg)](https://www.youtube.com/watch?v=7zU3zgt9wxc)
+
 
 ## Installation
 
