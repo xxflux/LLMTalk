@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "bundler",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "plugins": [{
+      "name": "next"
+    }],
+    "allowJs": true,
+    "incremental": true,
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+        "@/common/*": ["./src/common/*"],
+        "@/shared/*": ["./src/shared/*"],
+        "@/shared/types": ["./src/shared/types"],
+        "@/hooks": ["./src/common/hooks"],
+        "@/libs/*": ["./src/common/lib/*"],
+        "@/config/*": ["./src/shared/config/*"],
+        "@/context": ["./src/common/context"],
+        "@/services/*": ["./src/common/services/*"],
+        "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tailwind.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}
