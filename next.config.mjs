@@ -1,11 +1,9 @@
-import { withSentryConfig } from '@sentry/nextjs';
-
 const nextConfig = {
     transpilePackages: ['next-mdx-remote'],
     images: {
         remotePatterns: [
             { hostname: 'www.google.com' },
-            { hostname: 'zyqdiwxgffuy8ymd.public.blob.vercel-storage.com' },
+            { hostname: 'YOUR_OWN_STORAGE_URL.public.blob.vercel-storage.com' },
         ],
     },
 
@@ -30,13 +28,4 @@ const nextConfig = {
     },
 };
 
-export default withSentryConfig(nextConfig, {
-    // Sentry configuration (unchanged)
-    org: 'saascollect',
-    project: 'javascript-nextjs',
-    silent: !process.env.CI,
-    widenClientFileUpload: true,
-    hideSourceMaps: true,
-    disableLogger: true,
-    automaticVercelMonitors: true,
-});
+export default nextConfig;

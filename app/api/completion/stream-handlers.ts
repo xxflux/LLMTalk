@@ -1,11 +1,10 @@
 import { streamText } from 'ai';
-import { logger } from '@/shared/logger';
-import { EVENT_TYPES, posthog } from '@/shared/posthog';
+import { logger } from '@/shared/shared-logger-utility';
 import { Geo } from '@vercel/functions';
 import { CompletionRequestType, StreamController } from './types';
 import { sanitizePayloadForJSON } from './utils';
-import { getLanguageModel } from '@/common/ai/providers';
-import { getModelFromChatMode } from '@/common/ai/models';
+import { getLanguageModel } from '@/common/lib/ai/providers';
+import { getModelFromChatMode, supportsThinkingReasoning } from '@/common/lib/ai/models';
 
 export function sendMessage(
     controller: StreamController,
@@ -90,35 +89,43 @@ export async function executeStream({
             }
         });
         
-        // Prioritize .env file, fallback to frontend API keys
-        if (data.apiKeys) {
-            if (data.apiKeys.OPENAI_API_KEY && !process.env.OPENAI_API_KEY) {
-                process.env.OPENAI_API_KEY = data.apiKeys.OPENAI_API_KEY;
-                console.log('[DEBUG STREAM] Using OpenAI key from frontend');
-            }
-            if (data.apiKeys.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_API_KEY) {
-                process.env.ANTHROPIC_API_KEY = data.apiKeys.ANTHROPIC_API_KEY;
-                console.log('[DEBUG STREAM] Using Anthropic key from frontend');
-            }
-            if (data.apiKeys.GEMINI_API_KEY && !process.env.GEMINI_API_KEY) {
-                process.env.GEMINI_API_KEY = data.apiKeys.GEMINI_API_KEY;
-                console.log('[DEBUG STREAM] Using Gemini key from frontend');
-            }
-            if (data.apiKeys.FIREWORKS_API_KEY && !process.env.FIREWORKS_API_KEY) {
-                process.env.FIREWORKS_API_KEY = data.apiKeys.FIREWORKS_API_KEY;
-                console.log('[DEBUG STREAM] Using Fireworks key from frontend');
-            }
-            if (data.apiKeys.TOGETHER_API_KEY && !process.env.TOGETHER_API_KEY) {
-                process.env.TOGETHER_API_KEY = data.apiKeys.TOGETHER_API_KEY;
-                console.log('[DEBUG STREAM] Using Together key from frontend');
-            }
-            if (data.apiKeys.SERPER_API_KEY && !process.env.SERPER_API_KEY) {
-                process.env.SERPER_API_KEY = data.apiKeys.SERPER_API_KEY;
-                console.log('[DEBUG STREAM] Using Serper key from frontend');
-            }
-            if (data.apiKeys.JINA_API_KEY && !process.env.JINA_API_KEY) {
-                process.env.JINA_API_KEY = data.apiKeys.JINA_API_KEY;
-                console.log('[DEBUG STREAM] Using Jina key from frontend');
+        // Handle API keys based on mode preference
+        const apiKeyMode = data.apiKeyMode || 'own'; // Default to 'own' for backward compatibility
+        
+        if (apiKeyMode === 'system') {
+            // In "system" mode, only use .env keys, ignore frontend keys
+            console.log('[DEBUG STREAM] Using System mode - only .env keys will be used');
+        } else {
+            // In "own" mode, use frontend keys as fallback if .env doesn't have them
+            if (data.apiKeys) {
+                if (data.apiKeys.OPENAI_API_KEY && !process.env.OPENAI_API_KEY) {
+                    process.env.OPENAI_API_KEY = data.apiKeys.OPENAI_API_KEY;
+                    console.log('[DEBUG STREAM] Using OpenAI key from frontend');
+                }
+                if (data.apiKeys.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_API_KEY) {
+                    process.env.ANTHROPIC_API_KEY = data.apiKeys.ANTHROPIC_API_KEY;
+                    console.log('[DEBUG STREAM] Using Anthropic key from frontend');
+                }
+                if (data.apiKeys.GEMINI_API_KEY && !process.env.GEMINI_API_KEY) {
+                    process.env.GEMINI_API_KEY = data.apiKeys.GEMINI_API_KEY;
+                    console.log('[DEBUG STREAM] Using Gemini key from frontend');
+                }
+                if (data.apiKeys.FIREWORKS_API_KEY && !process.env.FIREWORKS_API_KEY) {
+                    process.env.FIREWORKS_API_KEY = data.apiKeys.FIREWORKS_API_KEY;
+                    console.log('[DEBUG STREAM] Using Fireworks key from frontend');
+                }
+                if (data.apiKeys.TOGETHER_API_KEY && !process.env.TOGETHER_API_KEY) {
+                    process.env.TOGETHER_API_KEY = data.apiKeys.TOGETHER_API_KEY;
+                    console.log('[DEBUG STREAM] Using Together key from frontend');
+                }
+                if (data.apiKeys.SERPER_API_KEY && !process.env.SERPER_API_KEY) {
+                    process.env.SERPER_API_KEY = data.apiKeys.SERPER_API_KEY;
+                    console.log('[DEBUG STREAM] Using Serper key from frontend');
+                }
+                if (data.apiKeys.JINA_API_KEY && !process.env.JINA_API_KEY) {
+                    process.env.JINA_API_KEY = data.apiKeys.JINA_API_KEY;
+                    console.log('[DEBUG STREAM] Using Jina key from frontend');
+                }
             }
         }
         
@@ -169,6 +176,9 @@ export async function executeStream({
         });
 
         let fullText = '';
+        let thinkingText = '';
+        let reasoningText = '';
+        const supportsThinking = supportsThinkingReasoning(data.mode);
         
         // Send initial message
         sendMessage(controller, encoder, {
@@ -179,6 +189,7 @@ export async function executeStream({
             answer: {
                 text: '',
                 status: 'PENDING',
+                ...(supportsThinking && { thinking: '', reasoning: '' }),
             },
         });
 
@@ -199,8 +210,48 @@ export async function executeStream({
                 answer: {
                     text: fullText,
                     status: 'PENDING',
+                    ...(supportsThinking && { thinking: thinkingText, reasoning: reasoningText }),
                 },
             });
+        }
+
+        // Extract thinking/reasoning from result if available
+        if (supportsThinking) {
+            try {
+                // For O1 models, get the full response to extract thinking/reasoning
+                const fullResponse = await result;
+                
+                // Check for thinking/reasoning in various possible locations
+                if ((fullResponse as any).thinking) {
+                    thinkingText = (fullResponse as any).thinking;
+                }
+                if ((fullResponse as any).reasoning) {
+                    reasoningText = (fullResponse as any).reasoning;
+                }
+                
+                // Check experimental_telemetry
+                const telemetry = (fullResponse as any).experimental_telemetry;
+                if (telemetry) {
+                    if (telemetry.thinkingTokens) {
+                        thinkingText = Array.isArray(telemetry.thinkingTokens) 
+                            ? telemetry.thinkingTokens.join('') 
+                            : telemetry.thinkingTokens;
+                    }
+                    if (telemetry.reasoningTokens) {
+                        reasoningText = Array.isArray(telemetry.reasoningTokens)
+                            ? telemetry.reasoningTokens.join('')
+                            : telemetry.reasoningTokens;
+                    }
+                }
+                
+                // Check usage for thinking tokens
+                const usage = fullResponse.usage;
+                if (usage && (usage as any).thinkingTokens) {
+                    thinkingText = (usage as any).thinkingTokens || thinkingText;
+                }
+            } catch (error) {
+                console.log('[DEBUG STREAM] Could not extract thinking/reasoning:', error);
+            }
         }
 
         console.log('[DEBUG STREAM] Stream completed, total length:', fullText.length);
@@ -214,25 +265,10 @@ export async function executeStream({
             answer: {
                 text: fullText,
                 status: 'COMPLETED',
+                ...(supportsThinking && thinkingText && { thinking: thinkingText }),
+                ...(supportsThinking && reasoningText && { reasoning: reasoningText }),
             },
         });
-
-        // Track completion
-        if (userId) {
-            posthog.capture({
-                event: EVENT_TYPES.WORKFLOW_SUMMARY,
-                userId,
-                properties: {
-                    userId,
-                    query: data.prompt,
-                    mode: data.mode,
-                    webSearch: data.webSearch || false,
-                    threadId: data.threadId,
-                    threadItemId: data.threadItemId,
-                    responseLength: fullText.length,
-                },
-            });
-        }
 
         console.log('[DEBUG STREAM] Sending done event');
         
@@ -243,8 +279,6 @@ export async function executeStream({
             threadItemId: data.threadItemId,
             parentThreadItemId: data.parentThreadItemId,
         });
-
-        posthog.flush();
 
         if (onFinish) {
             await onFinish();

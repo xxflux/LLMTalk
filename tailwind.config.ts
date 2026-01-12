@@ -1,12 +1,10 @@
+import type { Config } from 'tailwindcss';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
-const config: any = {
+const config: Config = {
     darkMode: ['class'],
     content: [
         './app/**/*.{js,ts,jsx,tsx,mdx}',
-        './components/**/*.{js,ts,jsx,tsx,mdx}',
-        './pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './lib/**/*.{js,ts,jsx,tsx,mdx}',
         './src/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
@@ -20,8 +18,8 @@ const config: any = {
         extend: {
             colors: {
                 border: 'hsl(var(--border))',
-                soft: 'hsl(var(--soft))',
-                hard: 'hsl(var(--hard))',
+                'border-subtle': 'hsl(var(--border-subtle))',
+                'border-strong': 'hsl(var(--border-strong))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
                 background: 'hsl(var(--background))',
@@ -30,17 +28,17 @@ const config: any = {
                     DEFAULT: 'hsl(var(--secondary))',
                     foreground: 'hsl(var(--secondary-foreground))',
                 },
-                brand: {
-                    DEFAULT: 'hsl(var(--brand))',
-                    foreground: 'hsl(var(--brand-foreground))',
+                primary: {
+                    DEFAULT: 'hsl(var(--primary))',
+                    foreground: 'hsl(var(--primary-foreground))',
                 },
-                tertiary: {
-                    DEFAULT: 'hsl(var(--tertiary))',
-                    foreground: 'hsl(var(--tertiary-foreground))',
+                surface: {
+                    DEFAULT: 'hsl(var(--surface))',
+                    foreground: 'hsl(var(--surface-foreground))',
                 },
-                quaternary: {
-                    DEFAULT: 'hsl(var(--quaternary))',
-                    foreground: 'hsl(var(--quaternary-foreground))',
+                'surface-hover': {
+                    DEFAULT: 'hsl(var(--surface-hover))',
+                    foreground: 'hsl(var(--surface-hover-foreground))',
                 },
                 destructive: {
                     DEFAULT: 'hsl(var(--destructive))',
@@ -83,7 +81,7 @@ const config: any = {
                 '2xl': ['1.275rem', { lineHeight: '2.25rem' }],
                 '3xl': ['1.375rem', { lineHeight: '2.5rem' }],
                 '4xl': ['1.475rem', { lineHeight: '2.75rem' }],
-                '5xl': ['3.052rem'],
+                '5xl': '3.052rem',
             },
             fontWeight: {
                 normal: '350',
@@ -93,37 +91,37 @@ const config: any = {
                 black: '600',
             },
             keyframes: {
-                'accordion-down': {
+                'accordion-expand': {
                     from: { height: '0' },
                     to: { height: 'var(--radix-accordion-content-height)' },
                 },
-                'accordion-up': {
+                'accordion-collapse': {
                     from: { height: 'var(--radix-accordion-content-height)' },
                     to: { height: '0' },
                 },
-                marquee: {
+                'marquee-left': {
                     '0%': { transform: 'translateX(0%)' },
                     '100%': { transform: 'translateX(-100%)' },
                 },
-                marquee2: {
+                'marquee-right': {
                     '0%': { transform: 'translateX(100%)' },
                     '100%': { transform: 'translateX(0%)' },
                 },
-                'fade-in-once': {
-                    '0%': { opacity: 0, transform: 'translateY(5px)' },
-                    '100%': { opacity: 1, transform: 'translateY(0)' },
+                'fade-in-up': {
+                    '0%': { opacity: '0', transform: 'translateY(5px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
-                'reveal-pop': {
-                    '0%': { opacity: 0, transform: 'scale(0.96) translateY(10px)' },
-                    '70%': { opacity: 1, transform: 'scale(1.01) translateY(-2px)' },
-                    '100%': { opacity: 1, transform: 'scale(1) translateY(0)' },
+                'pop-in': {
+                    '0%': { opacity: '0', transform: 'scale(0.96) translateY(10px)' },
+                    '70%': { opacity: '1', transform: 'scale(1.01) translateY(-2px)' },
+                    '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
                 },
             },
             animation: {
-                'accordion-down': 'accordion-down 0.2s ease-out',
-                'accordion-up': 'accordion-up 0.2s ease-out',
-                'fade-in-once': 'fade-in-once 10s ease-out forwards',
-                'reveal-pop': 'reveal-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                'accordion-expand': 'accordion-expand 0.2s ease-out',
+                'accordion-collapse': 'accordion-collapse 0.2s ease-out',
+                'fade-in-up': 'fade-in-up 10s ease-out forwards',
+                'pop-in': 'pop-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             },
             typography: () => ({
                 prosetheme: {
@@ -131,7 +129,7 @@ const config: any = {
                         '--tw-prose-body': 'hsl(var(--foreground))',
                         '--tw-prose-headings': 'hsl(var(--foreground))',
                         '--tw-prose-lead': 'hsl(var(--muted-foreground))',
-                        '--tw-prose-links': 'hsl(var(--brand))',
+                        '--tw-prose-links': 'hsl(var(--primary))',
                         '--tw-prose-bold': 'hsl(var(--foreground))',
                         '--tw-prose-counters': 'hsl(var(--muted-foreground)/0.1)',
                         '--tw-prose-bullets': 'hsl(var(--muted-foreground)/0.1)',
@@ -149,7 +147,7 @@ const config: any = {
                         '--tw-prose-invert-body': 'hsl(var(--foreground))',
                         '--tw-prose-invert-headings': 'hsl(var(--foreground))',
                         '--tw-prose-invert-lead': 'hsl(var(--muted-foreground))',
-                        '--tw-prose-invert-links': 'hsl(var(--brand))',
+                        '--tw-prose-invert-links': 'hsl(var(--primary))',
                         '--tw-prose-invert-bold': 'hsl(var(--foreground))',
                         '--tw-prose-invert-counters': 'hsl(var(--muted-foreground))',
                         '--tw-prose-invert-bullets': 'hsl(var(--muted-foreground))',

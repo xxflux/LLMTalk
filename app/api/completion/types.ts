@@ -14,6 +14,7 @@ export const completionRequestSchema = z.object({
     showSuggestions: z.boolean().optional(),
     customInstructions: z.string().optional(),
     apiKeys: z.record(z.string(), z.string()).optional(), // ADDED: API keys from frontend
+    apiKeyMode: z.enum(['system', 'own']).optional(), // ADDED: API key mode preference
 });
 
 export type CompletionRequestType = z.infer<typeof completionRequestSchema>;

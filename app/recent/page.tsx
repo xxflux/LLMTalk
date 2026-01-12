@@ -76,13 +76,13 @@ export default function ThreadsPage() {
     return (
         <div className="flex w-full flex-col gap-2">
             <div className="mx-auto flex w-full max-w-2xl flex-col items-start gap-2 pt-16">
-                <h3 className="text-brand text-2xl font-semibold tracking-wide">
+                <h3 className="text-primary text-2xl font-semibold tracking-wide">
                     Chat History
                 </h3>
                 <Command className="bg-secondary !max-h-auto w-full">
                     <CommandInput
                         placeholder="Search"
-                        className="bg-tertiary h-8 w-full rounded-sm"
+                        className="bg-surface h-8 w-full rounded-sm"
                     />
 
                     <CommandList className="bg-secondary mt-2 !max-h-none gap-2">
@@ -90,7 +90,7 @@ export default function ThreadsPage() {
                             threads.map(thread => (
                                 <CommandItem key={thread.id} className="mb-2">
                                     <div
-                                        className="bg-tertiary hover:bg-quaternary group relative flex w-full cursor-pointer flex-col items-start rounded-md p-4 transition-all duration-200"
+                                        className="bg-surface hover:bg-surface-hover group relative flex w-full cursor-pointer flex-col items-start rounded-md p-4 transition-all duration-200"
                                         onClick={() => handleThreadClick(thread.id)}
                                     >
                                         <div className="flex w-full justify-between">
@@ -102,7 +102,7 @@ export default function ThreadsPage() {
                                                         onChange={handleInputChange}
                                                         onBlur={handleInputBlur}
                                                         onKeyDown={handleInputKeyDown}
-                                                        className="bg-quaternary rounded px-2 py-1 text-sm"
+                                                        className="bg-surface-hover rounded px-2 py-1 text-sm"
                                                         onClick={e => e.stopPropagation()}
                                                     />
                                                 ) : (
@@ -157,7 +157,7 @@ export default function ThreadsPage() {
                                 </CommandItem>
                             ))
                         ) : (
-                            <div className="border-hard mt-2 flex w-full flex-col items-center justify-center gap-4 rounded-md border border-dashed p-4">
+                            <div className="border-border-strong mt-2 flex w-full flex-col items-center justify-center gap-4 rounded-md border border-dashed p-4">
                                 <div className="flex flex-col items-center gap-0">
                                     <p className="text-muted-foreground text-sm">
                                         No chats found
