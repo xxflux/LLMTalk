@@ -1,5 +1,7 @@
 [![https://www.youtube.com/watch?v=0pjrDq2MH-U](https://img.youtube.com/vi/0pjrDq2MH-U/0.jpg)](https://www.youtube.com/watch?v=0pjrDq2MH-U)
 
+Live demo: https://llm-talk-five.vercel.app/chat
+
 ## About
 
 LLMTalk is a modern chat interface for interacting with multiple Large Language Models (LLMs) including OpenAI, Anthropic, and Google Gemini. The application provides a unified interface for chatting with various AI models, with support for features like web search, image uploads, and custom AI response rules.
