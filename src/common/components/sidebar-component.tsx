@@ -40,7 +40,8 @@ export const Sidebar = () => {
     };
 
     const isSignedIn = false; // Auth removed
-    const user = null; // Auth removed
+    type User = { hasImage?: boolean; imageUrl?: string; fullName?: string };
+    const user: User | null = null; // Auth removed
     const clearAllThreads = useChatStore(state => state.clearAllThreads);
     const setIsSidebarOpen = useAppStore(state => state.setIsSidebarOpen);
     const isSidebarOpen = useAppStore(state => state.isSidebarOpen);
@@ -277,13 +278,13 @@ export const Sidebar = () => {
                                     )}
                                 >
                                     <div className="bg-primary flex size-5 shrink-0 items-center justify-center rounded-full">
-                                        {user && user.hasImage ? (
+                                        {(user as User | null)?.hasImage ? (
                                             <img
-                                                src={user?.imageUrl ?? ''}
+                                                src={(user as User | null)?.imageUrl ?? ''}
                                                 width={0}
                                                 height={0}
                                                 className="size-full shrink-0 rounded-full"
-                                                alt={user?.fullName ?? ''}
+                                                alt={(user as User | null)?.fullName ?? ''}
                                             />
                                         ) : (
                                             <IconUser
@@ -296,7 +297,7 @@ export const Sidebar = () => {
 
                                     {isSidebarOpen && (
                                         <p className="line-clamp-1 flex-1 !text-sm font-medium">
-                                            {user?.fullName}
+                                            {(user as User | null)?.fullName}
                                         </p>
                                     )}
                                     {isSidebarOpen && (
@@ -320,13 +321,13 @@ export const Sidebar = () => {
                                 </DropdownMenuItem>
                             )} */}
                                 {isSignedIn && (
-                                    <DropdownMenuItem onClick={() => openUserProfile()}>
+                                    <DropdownMenuItem onClick={() => {}}>
                                         <IconUser size={16} strokeWidth={2} />
                                         Profile
                                     </DropdownMenuItem>
                                 )}
                                 {isSignedIn && (
-                                    <DropdownMenuItem onClick={() => signOut()}>
+                                    <DropdownMenuItem onClick={() => {}}>
                                         <IconLogout size={16} strokeWidth={2} />
                                         Logout
                                     </DropdownMenuItem>

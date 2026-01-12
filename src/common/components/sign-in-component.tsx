@@ -13,14 +13,21 @@ export const CustomSignIn = ({
     redirectUrl = '/sign-in/sso-callback',
     onClose,
 }: CustomSignInProps) => {
+    // Auth removed - Clerk hooks no longer available
     const [isLoading, setIsLoading] = useState<string | null>(null);
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [verifying, setVerifying] = useState(false);
-    const { signIn, isLoaded, setActive } = useSignIn();
-    const { signUp, isLoaded: isSignUpLoaded } = useSignUp();
     const [code, setCode] = useState('');
     const [resending, setResending] = useState(false);
+    
+    // Stub values since auth is removed
+    const signIn: any = null;
+    const signUp: any = null;
+    const isLoaded = false;
+    const isSignUpLoaded = false;
+    const setActive = (_args?: any) => {};
+    
     if (!isSignUpLoaded || !isLoaded) return null;
     const router = useRouter();
 
@@ -56,10 +63,6 @@ export const CustomSignIn = ({
                         router.push('/chat');
                     }
                 } catch (error) {
-                    if (isClerkAPIResponseError(error)) {
-                        console.log(error);
-                    }
-
                     console.error('Sign-in error:', error);
                     setError('Something went wrong while signing in. Please try again.');
                 }
@@ -249,9 +252,7 @@ export const CustomSignIn = ({
                         throw new Error('Email address ID not found');
                     }
                 } catch (error) {
-                    if (isClerkAPIResponseError(error)) {
-                        console.error('Error resending code:', error);
-                    }
+                    console.error('Error resending code:', error);
                     setError('Failed to resend code. Please try again.');
                 }
             } else {

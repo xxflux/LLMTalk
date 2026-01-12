@@ -16,4 +16,4 @@ export * from './thread-navigation-bar';
 export * from './thread-tool-call';
 export * from './thread-tool-result';
 export * from './thread-vaul-drawer';
-export * from './thread-node-meta';
+// export * from './thread-node-meta'; // File is commented out, no exports available

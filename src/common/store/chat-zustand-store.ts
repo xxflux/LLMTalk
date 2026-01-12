@@ -315,9 +315,10 @@ const initializeWorker = () => {
         console.log('[DEBUG] SharedWorker initialization complete');
     } catch (error) {
         console.error('[DEBUG] Failed to initialize SharedWorker:', error);
-        console.error('[DEBUG] Error type:', error?.constructor?.name);
-        console.error('[DEBUG] Error message:', error?.message);
-        console.error('[DEBUG] Error stack:', error?.stack);
+        const err = error as Error;
+        console.error('[DEBUG] Error type:', err?.constructor?.name);
+        console.error('[DEBUG] Error message:', err?.message);
+        console.error('[DEBUG] Error stack:', err?.stack);
         
         // Fallback to localStorage method if SharedWorker isn't supported
         console.log('[DEBUG] Falling back to localStorage sync');
@@ -715,8 +716,8 @@ export const useChatStore = create(
                     threadId,
                     threadItemId: threadItem.id,
                     status: threadItem.status,
-                    hasContent: !!threadItem.content,
-                    contentLength: threadItem.content?.length || 0
+                    hasQuery: !!threadItem.query,
+                    queryLength: threadItem.query?.length || 0
                 });
 
                 // // Fetch the existing item
@@ -744,7 +745,7 @@ export const useChatStore = create(
                 console.log('[DEBUG STORE] Updated item:', {
                     id: updatedItem.id,
                     status: updatedItem.status,
-                    contentLength: updatedItem.content?.length || 0
+                    queryLength: updatedItem.query?.length || 0
                 });
 
                 // Update UI state immediately

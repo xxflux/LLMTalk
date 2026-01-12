@@ -36,7 +36,7 @@ export * from './use-confirm-popover-hook';
 export * from './use-toast-hook';
 
 export * from './input-otp-component';
-export * from './sonner-component';
+export { Toaster as SonnerToaster } from './sonner-component';
 
 // Re-export cn utility for convenience
 export { cn } from '../lib/class-name-utils';
