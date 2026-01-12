@@ -259,54 +259,22 @@ type AnimatedTitlesProps = {
 };
 
 const AnimatedTitles = ({ titles = [] }: AnimatedTitlesProps) => {
-    const [greeting, setGreeting] = React.useState<string>('');
-
-    React.useEffect(() => {
-        const getTimeBasedGreeting = () => {
-            const hour = new Date().getHours();
-
-            if (hour >= 5 && hour < 12) {
-                return 'Good morning';
-            } else if (hour >= 12 && hour < 18) {
-                return 'Good afternoon';
-            } else {
-                return 'Good evening';
-            }
-        };
-
-        setGreeting(getTimeBasedGreeting());
-
-        // Update the greeting if the component is mounted during a time transition
-        const interval = setInterval(() => {
-            const newGreeting = getTimeBasedGreeting();
-            if (newGreeting !== greeting) {
-                setGreeting(newGreeting);
-            }
-        }, 60000); // Check every minute
-
-        return () => clearInterval(interval);
-    }, [greeting]);
-
     return (
         <Flex
             direction="col"
             className="relative h-[60px] w-full items-center justify-center overflow-hidden"
         >
-            <AnimatePresence mode="wait">
-                <motion.h1
-                    key={greeting}
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
-                    transition={{
-                        duration: 0.8,
-                        ease: 'easeInOut',
-                    }}
-                    className="from-muted-foreground/50 via-muted-foreground/40 to-muted-foreground/20 bg-gradient-to-r bg-clip-text text-center text-[32px] font-semibold tracking-tight text-transparent"
-                >
-                    {greeting}
-                </motion.h1>
-            </AnimatePresence>
+            <motion.h1
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                    duration: 0.8,
+                    ease: 'easeInOut',
+                }}
+                className="from-muted-foreground/50 via-muted-foreground/40 to-muted-foreground/20 bg-gradient-to-r bg-clip-text text-center text-[32px] font-semibold tracking-tight text-transparent"
+            >
+                What would you like to explore?
+            </motion.h1>
         </Flex>
     );
 };

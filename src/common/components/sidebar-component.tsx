@@ -19,6 +19,7 @@ import {
     IconArrowBarRight,
     IconCommand,
     IconLogout,
+    IconPalette,
     IconPlus,
     IconSelector,
     IconSettings,
@@ -250,6 +251,22 @@ export const Sidebar = () => {
                             <IconArrowBarRight size={16} strokeWidth={2} />
                         </Button>
                     )}
+                    <Link href="/design-system" className={isSidebarOpen ? 'w-full' : ''}>
+                        <Button
+                            size={isSidebarOpen ? 'sm' : 'icon-sm'}
+                            variant="bordered"
+                            rounded="lg"
+                            tooltip={isSidebarOpen ? undefined : 'Design System'}
+                            tooltipSide="right"
+                            className={cn(
+                                'text-muted-foreground w-full justify-start',
+                                !isSidebarOpen && 'w-auto justify-center'
+                            )}
+                        >
+                            <IconPalette size={16} strokeWidth={2} />
+                            {isSidebarOpen && 'Design System'}
+                        </Button>
+                    </Link>
                     {isSignedIn && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>

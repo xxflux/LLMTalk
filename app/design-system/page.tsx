@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge, Button, Input, Textarea, FormLabel, Checkbox, Switch, RadioGroup, RadioGroupItem, Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, Kbd, Alert, AlertTitle, AlertDescription, Toast, ToastTitle, ToastDescription, ToastAction, useToast } from '@/common/ui';
-import { CodeBlock } from '@/common/components';
+import { CodeBlock, TextShimmer } from '@/common/components';
 import { Copy, Check, RotateCcw, ChevronDown, Circle, Globe, MoreHorizontal, CornerDownRight, X, Search, Minus, AlertCircle } from 'lucide-react';
 import {
     IconCommand, IconPlus, IconSettings2, IconKey, IconMessageCircleFilled, IconSun, IconMoon, IconTrash,
@@ -183,6 +183,135 @@ const DesignSystemPage = () => {
                                         <span className="text-muted-foreground ml-4 text-xs">{weight.weight}</span>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Text Gradients Section */}
+                <section className="mb-16">
+                    <h2 className="text-foreground mb-6 text-2xl font-semibold">Text Gradients</h2>
+                    <div className="mb-4">
+                        <p className="text-muted-foreground text-sm">
+                            Text gradient effects for creating visually appealing text with gradient colors. Includes animated shimmer effects and static gradients.
+                        </p>
+                    </div>
+                    <div className="border-border bg-card rounded-lg border p-6">
+                        <div className="mb-6">
+                            <h3 className="text-foreground mb-4 text-xl font-semibold">Animated Shimmer Effect</h3>
+                            <p className="text-muted-foreground mb-4 text-sm">
+                                The TextShimmer component creates an animated gradient that moves across text, perfect for loading states and attention-grabbing text.
+                            </p>
+                            <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                    <div className="mb-2 text-sm font-medium">Light Mode</div>
+                                    <div className="bg-muted/30 border-border rounded-lg border p-6">
+                                        <div className="space-y-4">
+                                            <div>
+                                                <TextShimmer duration={1.5} spread={2}>
+                                                    Loading content...
+                                                </TextShimmer>
+                                            </div>
+                                            <div>
+                                                <TextShimmer duration={2} spread={1.5}>
+                                                    Processing your request
+                                                </TextShimmer>
+                                            </div>
+                                            <div>
+                                                <TextShimmer duration={1} spread={3} className="text-2xl font-bold">
+                                                    Welcome
+                                                </TextShimmer>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="mb-2 text-sm font-medium">Dark Mode</div>
+                                    <div className="dark bg-background border-border rounded-lg border p-6">
+                                        <div className="space-y-4">
+                                            <div>
+                                                <TextShimmer duration={1.5} spread={2}>
+                                                    Loading content...
+                                                </TextShimmer>
+                                            </div>
+                                            <div>
+                                                <TextShimmer duration={2} spread={1.5}>
+                                                    Processing your request
+                                                </TextShimmer>
+                                            </div>
+                                            <div>
+                                                <TextShimmer duration={1} spread={3} className="text-2xl font-bold">
+                                                    Welcome
+                                                </TextShimmer>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-muted-foreground text-xs">
+                                The shimmer effect automatically adapts colors: uses foreground color in light mode and primary color in dark mode. The effect may be more subtle in light mode due to the gradient animation.
+                            </p>
+                        </div>
+
+                        <div className="mb-6">
+                            <h3 className="text-foreground mb-4 text-xl font-semibold">Static Gradient Text</h3>
+                            <p className="text-muted-foreground mb-4 text-sm">
+                                Static gradient text using Tailwind's gradient utilities with <code className="bg-muted px-1 rounded">bg-clip-text</code> and <code className="bg-muted px-1 rounded">text-transparent</code>.
+                            </p>
+                            <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                    <div className="mb-2 text-sm font-medium">Light Mode</div>
+                                    <div className="bg-background border-border rounded-lg border p-6">
+                                        <div className="space-y-4">
+                                            <p className="from-muted-foreground/50 via-muted-foreground/40 to-muted-foreground/20 bg-gradient-to-r bg-clip-text text-lg font-semibold text-transparent">
+                                                Gradient from muted colors
+                                            </p>
+                                            <p className="from-primary via-primary/80 to-primary/60 bg-gradient-to-r bg-clip-text text-lg font-semibold text-transparent">
+                                                Gradient with primary colors
+                                            </p>
+                                            <p className="from-primary via-accent to-primary bg-gradient-to-r bg-clip-text text-xl font-bold text-transparent">
+                                                Bold gradient text
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="mb-2 text-sm font-medium">Dark Mode</div>
+                                    <div className="dark bg-background border-border rounded-lg border p-6">
+                                        <div className="space-y-4">
+                                            <p className="from-muted-foreground/50 via-muted-foreground/40 to-muted-foreground/20 bg-gradient-to-r bg-clip-text text-lg font-semibold text-transparent">
+                                                Gradient from muted colors
+                                            </p>
+                                            <p className="from-primary via-primary/80 to-primary/60 bg-gradient-to-r bg-clip-text text-lg font-semibold text-transparent">
+                                                Gradient with primary colors
+                                            </p>
+                                            <p className="from-primary via-accent to-primary bg-gradient-to-r bg-clip-text text-xl font-bold text-transparent">
+                                                Bold gradient text
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="text-foreground mb-4 text-xl font-semibold">Usage</h3>
+                            <div className="bg-muted rounded-lg p-4 space-y-3 text-sm">
+                                <div>
+                                    <strong className="text-foreground">TextShimmer Component:</strong>
+                                    <div className="text-muted-foreground mt-1">
+                                        <code className="bg-background px-1 rounded">import {`{ TextShimmer }`} from '@/common/components'</code>
+                                    </div>
+                                    <div className="text-muted-foreground mt-2">
+                                        <code className="bg-background px-1 rounded">{`<TextShimmer duration={1.5} spread={2}>Loading...</TextShimmer>`}</code>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong className="text-foreground">Static Gradient:</strong>
+                                    <div className="text-muted-foreground mt-1">
+                                        <code className="bg-background px-1 rounded">className="from-primary via-accent to-primary bg-gradient-to-r bg-clip-text text-transparent"</code>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
