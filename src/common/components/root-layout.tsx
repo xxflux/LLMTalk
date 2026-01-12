@@ -9,7 +9,7 @@ import {
 import { useRootContext } from '@/common/context';
 import { AgentProvider } from '@/common/hooks';
 import { useAppStore } from '@/common/store';
-import { Badge, Button, Flex, SonnerToaster } from '@/common/ui';
+import { Badge, Button, Flex, SonnerToaster, Toaster } from '@/common/ui';
 import { IconMoodSadDizzy, IconX } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
@@ -42,6 +42,7 @@ export const RootLayout: FC<TRootLayout> = ({ children }) => {
                 </div>
                 <SettingsModal />
                 <CommandSearch />
+                <Toaster />
                 <SonnerToaster />
             </div>
         );
@@ -103,6 +104,7 @@ export const RootLayout: FC<TRootLayout> = ({ children }) => {
                 </Flex>
             </div>
 
+            <Toaster />
             <SonnerToaster />
         </div>
     );
