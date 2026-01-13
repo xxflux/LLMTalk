@@ -57,6 +57,17 @@ GEMINI_API_KEY=your_gemini_key
 
 **Note**: You can also manage API keys directly in the application Settings under "API Keys" when using "Own mode". The application will prompt you to add required keys if they're missing when starting a chat.
 
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI
+- **State Management**: Zustand
+- **AI SDK**: Vercel AI SDK
+- **Icons**: Tabler Icons, Lucide React
+- **Font**: IBM Plex Sans
+
 ## Design System
 
 Visit `/design-system` to explore the complete design system, including:
@@ -68,13 +79,5 @@ Visit `/design-system` to explore the complete design system, including:
 - Icons library
 - Code blocks
 
-## Tech Stack
-
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: Radix UI
-- **State Management**: Zustand
-- **AI SDK**: Vercel AI SDK
-- **Icons**: Tabler Icons, Lucide React
-- **Font**: IBM Plex Sans
+![screenshot](https://github.com/xxflux/LLMTalk/blob/main/docs/design_system_01.png)
+![screenshot](https://github.com/xxflux/LLMTalk/blob/main/docs/design_system_02.png)
